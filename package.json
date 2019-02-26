@@ -4,11 +4,11 @@
   "description": "A small wrapper for webpack.",
   "main": "lib/bundler.js",
   "scripts": {
-    "tsc": "tsc"
+    "build": "tsc"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "aliwalker",
+  "license": "MIT",
   "dependencies": {
     "memory-fs": "^0.4.1",
     "webpack": "^4.29.5",
