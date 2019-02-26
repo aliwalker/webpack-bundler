@@ -1,12 +1,12 @@
 {
   "name": "wrapped-webpack-bundler",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A small wrapper for webpack.",
   "main": "lib/bundler.js",
   "scripts": {
     "build": "tsc",
     "commit": "git add . && git commit -m",
-    "pub:patch": "npm run build && npm version patch && npm publish && npm run commit"
+    "pub:patch": "npm run build && npm version patch --force && npm publish"
   },
   "keywords": [],
   "author": "aliwalker",
