@@ -2,7 +2,9 @@ import WebpackDevMiddleware = require('webpack-dev-middleware');
 import * as loglevel from 'loglevel';
 import MFS = require('memory-fs');
 import webpack = require('webpack');
+import * as Koa from "koa";
 import NodeFS = require('webpack/lib/node/NodeOutputFileSystem');
+import stream = require('stream');
 
 import WebpackBundler = require('../index');
 import confCreator from './configuration';
@@ -51,19 +53,42 @@ export = class WebpackBundler {
   async compile() {
     const promises = this.compilers.map(compiler => {    
       let target = compiler.options.target === 'node' ? 'server' : 'client';
-
+      
+      compiler.outputFileSystem = this.fileSystem;
       this.addHooks(compiler);
       return this.runner[target](compiler);
     });
 
-    await Promise.all(promises)
+    await Promise.all(promises);
   }
 
-  middlewares() {
+  middlewares(style: 'express'| 'koa' = 'express') {
     let instances: Array<any> = [];
+    let map = {
+      express(instance: any) { return instance; },
+      koa(instance: any) {
+        return async (ctx: Koa.Context, next: Function) => {
+          const s = new stream.PassThrough();
+          await instance(ctx.req, {
+            end: (content: any) => {
+              ctx.body = content;
+            },
+            write: s.write.bind(s),
+            writeHead: (status: any, headers: any) => {
+              ctx.body = s;
+              ctx.status = status;
+              ctx.set(headers);
+            },
+            setHeader: (name: string, value: string) => {
+              ctx.set(name, value);
+            },
+          }, next);
+        }
+      }
+    };
 
-    this.context.devMiddleware.instances.forEach(i => instances.push(i));
-    this.context.hotMiddleware.instances.forEach(i => instances.push(i));
+    this.context.devMiddleware.instances.forEach(i => instances.push(map[style](i)));
+    this.context.hotMiddleware.instances.forEach(i => instances.push(map[style](i)));
     return instances;
   }
 
