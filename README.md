@@ -7,8 +7,6 @@ This package contains some common code for starting webpack programatically. Web
 
 ### Usage
 
-TODO: (Yiyong.Li)
-
 In development mode, `WebpackBundler` uses webpack-dev-middleware & webpack-hot-middleware for any "non-node-targeted" configurations.
 
 ```ts
