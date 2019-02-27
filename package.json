@@ -1,12 +1,13 @@
 {
   "name": "wrapped-webpack-bundler",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A small wrapper for webpack.",
   "main": "lib/bundler.js",
   "scripts": {
     "build": "tsc",
     "commit": "git add . && git commit -m",
-    "pub:patch": "npm run build && npm version patch --force && npm publish"
+    "pub:patch:npm": "npm run build && npm version patch --force && npm publish",
+    "pub:patch": "npm run pub:patch:npm && npm run commit"
   },
   "keywords": [],
   "author": "aliwalker",
@@ -15,7 +16,11 @@
     "memory-fs": "^0.4.1",
     "webpack": "^4.29.5",
     "webpack-dev-middleware": "^3.6.0",
+    "webpack-hot-middleware": "^2.24.3",
     "webpack-log": "^2.0.0"
+  },
+  "repository": {
+    "url": "https://github.com/aliwalker/webpack-bundler.git"
   },
   "devDependencies": {
     "@types/express": "^4.16.1",
@@ -29,9 +34,7 @@
     "koa": "^2.7.0",
     "lodash": "^4.17.11",
     "ts-node": "^8.0.2",
-    "typescript": "^3.3.3333",
-    "webpack-dev-middleware": "^3.6.0",
-    "webpack-hot-middleware": "^2.24.3"
+    "typescript": "^3.3.3333"
   },
   "peerDependencies": {
     "webpack-hot-middleware": "^2.24.3"
