@@ -1,5 +1,7 @@
 ## Webpack-Bundler
 
+**Deprecated**.
+
 A small package wrapped around webpack, used for dealing with bundling over bunches of webpack configurations.
 
 This package contains some common code for starting webpack programatically. Webpack-dev-middleware & webpack-hot-middleware are integrated and middleware instances can be obtained easily.
